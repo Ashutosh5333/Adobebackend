@@ -3,6 +3,7 @@ const express = require("express")
 const cors = require("cors")
 const { Connection } = require("./config/db")
 const { UserRouter } = require("./routes/user.route")
+const { PostRouter } = require("./routes/post.route")
 const app = express()
 app.use(express.json())
 
@@ -11,8 +12,9 @@ app.get("/" , (req,res) => {
   res.send("welcome home")
 })
 
-app.use(UserRouter)
 
+app.use(UserRouter)
+app.use(PostRouter)
 
 
 
