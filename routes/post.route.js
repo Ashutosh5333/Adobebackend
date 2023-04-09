@@ -113,42 +113,42 @@ PostRouter.delete("/post/delete/:Id", authenticate, async(req,res) =>{
 //  -----------  likes ------------ //
 
 
-// PostRouter.put("/likes/:postId", authenticate, (req,res) =>{
-//      const userId = req.body.userId
-//      PostModel.findByIdAndUpdate(req.params.postId,{
-//        $push:{likes:userId}
-//      },{
-//        new:true,
-//      }).exec((err,result) =>{
-//        if(err){
-//         return res.status(422).json({error:err})
-//        }
-//        else{
-//         res.json(result)
+PostRouter.put("/likes/:postId", authenticate, (req,res) =>{
+     const userId = req.body.userId
+     PostModel.findByIdAndUpdate(req.params.postId,{
+       $push:{likes:userId}
+     },{
+       new:true,
+     }).exec((err,result) =>{
+       if(err){
+        return res.status(422).json({error:err})
+       }
+       else{
+        res.json(result)
 
-//        }
-//      })
-
-// })
-
-
-PostRouter.put("/likes", authenticate, (req,res) =>{
-  const userId = req.body.userId
-  PostModel.findByIdAndUpdate(req.body.postId,{
-    $push:{likes:userId}
-  },{
-    new:true,
-  }).exec((err,result) =>{
-    if(err){
-     return res.status(422).json({error:err})
-    }
-    else{
-     res.json(result)
-
-    }
-  })
+       }
+     })
 
 })
+
+
+// PostRouter.put("/likes", authenticate, (req,res) =>{
+//   const userId = req.body.userId
+//   PostModel.findByIdAndUpdate(req.body.postId,{
+//     $push:{likes:userId}
+//   },{
+//     new:true,
+//   }).exec((err,result) =>{
+//     if(err){
+//      return res.status(422).json({error:err})
+//     }
+//     else{
+//      res.json(result)
+
+//     }
+//   })
+
+// })
 
 
   // ------------ unlikes ------------- //
