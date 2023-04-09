@@ -112,28 +112,48 @@ PostRouter.delete("/post/delete/:Id", authenticate, async(req,res) =>{
 
 //  -----------  likes ------------ //
 
-PostRouter.put("/likes/:postId", (req,res) =>{
-     const userId = req.body.userId
-     PostModel.findByIdAndUpdate(req.params.postId,{
-       $push:{likes:userId}
-     },{
-       new:true,
-     }).exec((err,result) =>{
-       if(err){
-        return res.status(422).json({error:err})
-       }
 
-       else{
-        res.json(result)
+// PostRouter.put("/likes/:postId", authenticate, (req,res) =>{
+//      const userId = req.body.userId
+//      PostModel.findByIdAndUpdate(req.params.postId,{
+//        $push:{likes:userId}
+//      },{
+//        new:true,
+//      }).exec((err,result) =>{
+//        if(err){
+//         return res.status(422).json({error:err})
+//        }
+//        else{
+//         res.json(result)
 
-       }
-     })
+//        }
+//      })
+
+// })
+
+
+PostRouter.put("/likes", authenticate, (req,res) =>{
+  const userId = req.body.userId
+  PostModel.findByIdAndUpdate(req.body.postId,{
+    $push:{likes:userId}
+  },{
+    new:true,
+  }).exec((err,result) =>{
+    if(err){
+     return res.status(422).json({error:err})
+    }
+    else{
+     res.json(result)
+
+    }
+  })
 
 })
 
+
   // ------------ unlikes ------------- //
    
-PostRouter.put("/unlikes/:postId", (req,res) =>{
+PostRouter.put("/unlikes/:postId",authenticate, (req,res) =>{
   const userId = req.body.userId
   PostModel.findByIdAndUpdate(req.params.postId,{
     $pull:{likes:userId}
@@ -149,9 +169,6 @@ PostRouter.put("/unlikes/:postId", (req,res) =>{
   })
 
 })
-
-
-
 
 
    module.exports={
