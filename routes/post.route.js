@@ -107,8 +107,50 @@ PostRouter.delete("/post/delete/:Id", authenticate, async(req,res) =>{
        console.log(err)
      }
 
-      
 })
+
+
+//  -----------  likes ------------ //
+
+PostRouter.put("/likes/:postId", (req,res) =>{
+     const userId = req.body.userId
+     PostModel.findByIdAndUpdate(req.params.postId,{
+       $push:{likes:userId}
+     },{
+       new:true,
+     }).exec((err,result) =>{
+       if(err){
+        return res.status(422).json({error:err})
+       }
+
+       else{
+        res.json(result)
+
+       }
+     })
+
+})
+
+  // ------------ unlikes ------------- //
+   
+PostRouter.put("/unlikes/:postId", (req,res) =>{
+  const userId = req.body.userId
+  PostModel.findByIdAndUpdate(req.params.postId,{
+    $pull:{likes:userId}
+  },{
+    new:true
+  }).exec((err,result) =>{
+    if(err){
+     return res.status(422).json({error:err})
+    }
+    else{
+     res.json(result)
+    }
+  })
+
+})
+
+
 
 
 
