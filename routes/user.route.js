@@ -71,7 +71,25 @@ UserRouter.get("/users", async (req,res) =>{
       }
      })
      
+
      
+    //  ---------------  single  user  ---------------  //
+
+    
+    UserRouter.get("/users/:Id", async(req,res) =>{
+      const dataId = req.params.Id
+     
+   try{
+         const singleuser =await Usermodel.findOne({_id:dataId})
+         res.send(singleuser)
+   }catch(err){
+     console.log(err)
+     res.send({"msg":"Something went wrong"})
+   }
+
+    
+})
+  
 
 
 
