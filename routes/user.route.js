@@ -10,7 +10,6 @@ const UserRouter= express.Router()
   
   // ----------  user get data ----------- //
 
-
 UserRouter.get("/users", async (req,res) =>{
         try{
          const user = await Usermodel.find()
@@ -25,7 +24,7 @@ UserRouter.get("/users", async (req,res) =>{
 
 
    UserRouter.post("/users/create", async (req,res) =>{
-    const {email,password,name,pic}= req.body
+    const {email,password,name}= req.body
 
        const  userpresent = await Usermodel.findOne({email})
              if(userpresent){
@@ -34,7 +33,7 @@ UserRouter.get("/users", async (req,res) =>{
              }
                try{
                 bcrypt.hash(password, 4, async function(err, hash) {
-                  const user = new Usermodel({email,password:hash,name,pic})
+                  const user = new Usermodel({email,password:hash,name})
                   await user.save()
                   res.send("Signup successfully")
               })
@@ -44,8 +43,8 @@ UserRouter.get("/users", async (req,res) =>{
                }
      })
 
-     UserRouter.post("/users/login", async(req,res) =>{
-      const {email,password,name,pic} = req.body;
+     UserRouter.post("/users/login", async(req,res) => {
+      const {email,password,name} = req.body;
       try{
         
        const user = await Usermodel.find({email})
@@ -56,7 +55,7 @@ UserRouter.get("/users", async (req,res) =>{
             bcrypt.compare(password,hashed_password,function(err, result){
                 if(result){
                     const token= jwt.sign({userId:user[0]._id}, process.env.key);
-                    res.send({"msg":"Login sucessfull", "token":token ,data:{email,name,pic}  })
+                    res.send({"msg":"Login sucessfull", "token":token ,data:{email,name}  })
                 }
                 else{
                   res.send("Please check password")
