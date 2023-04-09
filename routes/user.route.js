@@ -24,7 +24,7 @@ UserRouter.get("/users", async (req,res) =>{
 
 
    UserRouter.post("/users/create", async (req,res) =>{
-    const {email,password,name}= req.body
+    const {email,password,name,pic}= req.body
 
        const  userpresent = await Usermodel.findOne({email})
              if(userpresent){
@@ -33,7 +33,7 @@ UserRouter.get("/users", async (req,res) =>{
              }
                try{
                 bcrypt.hash(password, 4, async function(err, hash) {
-                  const user = new Usermodel({email,password:hash,name})
+                  const user = new Usermodel({email,password:hash,name,pic})
                   await user.save()
                   res.send("Signup successfully")
               })
@@ -44,7 +44,7 @@ UserRouter.get("/users", async (req,res) =>{
      })
 
      UserRouter.post("/users/login", async(req,res) => {
-      const {email,password,name} = req.body;
+      const {email,password,name,pic} = req.body;
       try{
         
        const user = await Usermodel.find({email})
@@ -55,7 +55,7 @@ UserRouter.get("/users", async (req,res) =>{
             bcrypt.compare(password,hashed_password,function(err, result){
                 if(result){
                     const token= jwt.sign({userId:user[0]._id}, process.env.key);
-                    res.send({"msg":"Login sucessfull", "token":token ,data:{email,name}  })
+                    res.send({"msg":"Login sucessfull", "token":token ,data:{email,name,pic}  })
                 }
                 else{
                   res.send("Please check password")
