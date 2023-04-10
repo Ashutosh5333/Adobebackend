@@ -6,7 +6,7 @@ const postSchema = mongoose.Schema({
         content:String,
         pic:String,
         userId:String,
-        likes:[{type:mongoose.Types.ObjectId,ref:"user"}],
+        likes:{type:Number,min:0 ,default:0},
         postedby:{type:mongoose.Types.ObjectId,ref:"user",required:true}
 }
 ,{

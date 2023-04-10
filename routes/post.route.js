@@ -34,7 +34,6 @@ PostRouter.get("/Allpost/:Id",  async (req,res) =>{
 
 
 
-
      // ------------- get post ------------------- //
 
  PostRouter.get("/post", authenticate, async (req,res) =>{
@@ -113,21 +112,20 @@ PostRouter.delete("/post/delete/:Id", authenticate, async(req,res) =>{
 //  -----------  likes ------------ //
 
 
-PostRouter.put("/likes/:postId", authenticate, (req,res) =>{
-     const userId = req.body.userId
-     PostModel.findByIdAndUpdate(req.params.postId,{
-       $push:{likes:userId}
-     },{
-       new:true,
-     }).exec((err,result) =>{
-       if(err){
-        return res.status(422).json({error:err})
-       }
-       else{
-        res.json(result)
+PostRouter.patch("/post/:Id/like", authenticate, async (req,res) =>{
+    const post= await PostModel.findById(req.params.Id)
+    post.likes++;
+    await   post.save()
+    res.send(post)
 
-       }
-     })
+})
+
+
+PostRouter.patch("/post/:Id/dislike", authenticate, async (req,res) =>{
+  const post= await PostModel.findById(req.params.Id)
+  post.likes--;
+  await   post.save()
+  res.send(post)
 
 })
 
