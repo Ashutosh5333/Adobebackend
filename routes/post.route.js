@@ -112,7 +112,7 @@ PostRouter.delete("/post/delete/:Id", authenticate, async(req,res) =>{
 //  -----------  likes ------------ //
 
 
-PostRouter.patch("/post/:Id/like", authenticate, async (req,res) =>{
+PostRouter.patch("/post/:Id/like",  async (req,res) =>{
     const post= await PostModel.findById(req.params.Id)
     post.likes++;
     await   post.save()
@@ -121,7 +121,7 @@ PostRouter.patch("/post/:Id/like", authenticate, async (req,res) =>{
 })
 
 
-PostRouter.patch("/post/:Id/dislike", authenticate, async (req,res) =>{
+PostRouter.patch("/post/:Id/dislike",  async (req,res) =>{
   const post= await PostModel.findById(req.params.Id)
   post.likes--;
   await   post.save()
